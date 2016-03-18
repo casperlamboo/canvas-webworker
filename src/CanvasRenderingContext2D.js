@@ -321,6 +321,21 @@ export default class CanvasRenderingContext2D {
     return new ImageData(width, height, data);
   }
 
+  putImageData(imageData, x, y) {
+    const { width, height, data } = imageData;
+
+    for (let index = 0, dataIndex = 0; index < data.length; index ++) {
+      const r = data[dataIndex ++];
+      const g = data[dataIndex ++];
+      const b = data[dataIndex ++];
+      const a = data[dataIndex ++] / 255;
+
+      const color = this._imageData[index + x + y * this.width];
+
+      color.set(r, g, b, a);
+    }
+  }
+
   createImageData(width, height) {
     ERROR_MANAGER.argumetsCheck('createImageData', 2, arguments.length);
 

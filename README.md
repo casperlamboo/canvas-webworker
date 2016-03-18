@@ -69,6 +69,7 @@ The library isn't finished yet. This is my progress so far. I'm planning to add 
     - transform
     - createImageData
     - getImageData
+    - putImageData
     - save
     - restore
     - canvas
@@ -121,7 +122,6 @@ The library isn't finished yet. This is my progress so far. I'm planning to add 
     - shadowOffsetY
     - setTransform
     - resetTransform
-    - putImageData
     - globalCompositeOperation
       - multiply
       - screen

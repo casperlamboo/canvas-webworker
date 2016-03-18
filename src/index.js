@@ -1,3 +1,5 @@
-import HTMLcanvasElement from './HTMLCanvasElement.js';
+import HTMLCanvasElement from './HTMLCanvasElement.js';
+import image from './Image.js';
 
-export default HTMLcanvasElement;
+export const Canvas = HTMLCanvasElement;
+export const Image = image;

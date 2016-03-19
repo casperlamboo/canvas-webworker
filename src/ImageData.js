@@ -1,5 +1,5 @@
 export default class ImageData {
-  constructor(width, height, data = Uint8ClampedArray(width * height * 4)) {
+  constructor(width, height, data = new Uint8ClampedArray(width * height * 4)) {
     this._data = data;
     this._width = width;
     this._height = height;

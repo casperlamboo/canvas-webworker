@@ -21,13 +21,13 @@ export default class Image extends CanvasImageSource {
       this.width = width;
       this.height = height;
 
-      for (let pixelIndex = 0, dataIndex = 0; dataIndex < this._imageData.length; dataIndex ++) {
-        const r = pixels.data[pixelIndex ++];
-        const g = pixels.data[pixelIndex ++];
-        const b = pixels.data[pixelIndex ++];
-        const a = pixels.data[pixelIndex ++] / 255;
+      const length = width * height;
 
-        this._imageData[dataIndex].set(r, g, b, a);
+      for (let pixelIndex = 0, dataIndex = 0; dataIndex < length; dataIndex ++) {
+        this.imageData.r[dataIndex] = pixels.data[pixelIndex ++];
+        this.imageData.g[dataIndex] = pixels.data[pixelIndex ++];
+        this.imageData.b[dataIndex] = pixels.data[pixelIndex ++];
+        this.imageData.a[dataIndex] = pixels.data[pixelIndex ++] / 255;
       }
 
       if (this.onload !== undefined) {

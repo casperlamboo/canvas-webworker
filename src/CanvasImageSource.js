@@ -9,7 +9,14 @@ export default class CanvasImageSource {
   }
 
   _initImageData() {
-    this._imageData = Array.from(Array(this._width * this._height)).map(() => new Color());
+    const length = this._width * this._height;
+
+    this.imageData = {
+      r: new Uint8ClampedArray(length),
+      g: new Uint8ClampedArray(length),
+      b: new Uint8ClampedArray(length),
+      a: new Float32Array(length)
+    };
   }
 
   set width(width) {
@@ -24,5 +31,4 @@ export default class CanvasImageSource {
 
   get width() { return this._width; }
   get height() { return this._height; }
-  get data() { return this._imageData; }
 }

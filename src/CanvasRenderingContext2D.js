@@ -69,11 +69,11 @@ export default class CanvasRenderingContext2D {
     const maxX = minX + width;
     const maxY = minY + height;
 
-    context.moveTo(minX, minY);
-    context.lineTo(maxX, minY);
-    context.lineTo(maxX, maxY);
-    context.lineTo(minX, maxY);
-    context.closePath();
+    this.moveTo(minX, minY);
+    this.lineTo(maxX, minY);
+    this.lineTo(maxX, maxY);
+    this.lineTo(minX, maxY);
+    this.closePath();
   }
 
   stroke() {
@@ -265,9 +265,13 @@ export default class CanvasRenderingContext2D {
 
         if (x >= minX && y >= minY && x < maxX && y < maxY) {
           const index = y * image.width + x;
-          const color = image._imageData[index];
 
-          this._drawPixel(destinationX, destinationY, color);
+          const r = image.imageData.r[index];
+          const g = image.imageData.g[index];
+          const b = image.imageData.b[index];
+          const a = image.imageData.a[index];
+
+          this._drawPixel(destinationX, destinationY, { r, g, b, a });
         } else {
           this._drawPixel(destinationX, destinationY, CLEAR_COLOR);
         }
@@ -286,13 +290,16 @@ export default class CanvasRenderingContext2D {
 
     const maxX = minX + width;
     const maxY = minY + height;
-    const data = this.canvas.data;
+    const imageData = this.canvas.imageData;
 
     for (let y = minY; y < maxY; y ++) {
       for (let x = minX; x < maxX; x ++) {
         const index = y * this.canvas.width + x;
 
-        data[index].clear();
+        imageData.r[index] = 0;
+        imageData.g[index] = 0;
+        imageData.b[index] = 0;
+        imageData.a[index] = 0;
       }
     }
   }
@@ -303,18 +310,19 @@ export default class CanvasRenderingContext2D {
     const maxX = minX + width;
     const maxY = minY + height;
 
+    const imageData = this.canvas.imageData;
+
     const data = new Uint8ClampedArray(width * height * 4);
     let dataIndex = 0;
 
     for (let y = minY; y < maxY; y ++) {
       for (let x = minX; x < maxX; x ++) {
-          const index = y * this.canvas.width + x;
-          const color = this.canvas.data[index].toArray();
+        const index = y * this.canvas.width + x;
 
-          data[dataIndex ++] = color[0];
-          data[dataIndex ++] = color[1];
-          data[dataIndex ++] = color[2];
-          data[dataIndex ++] = color[3];
+        data[dataIndex ++] = imageData.r[index];
+        data[dataIndex ++] = imageData.g[index];
+        data[dataIndex ++] = imageData.b[index];
+        data[dataIndex ++] = Math.round(imageData.a[index] * 255);
       }
     }
 
@@ -325,14 +333,12 @@ export default class CanvasRenderingContext2D {
     const { width, height, data } = imageData;
 
     for (let index = 0, dataIndex = 0; index < data.length; index ++) {
-      const r = data[dataIndex ++];
-      const g = data[dataIndex ++];
-      const b = data[dataIndex ++];
-      const a = data[dataIndex ++] / 255;
+      const imageDataIndex = index + x + y * this.width;
 
-      const color = this._imageData[index + x + y * this.width];
-
-      color.set(r, g, b, a);
+      this.imageData.r[imageDataIndex] = data[dataIndex ++];
+      this.imageData.g[imageDataIndex] = data[dataIndex ++];
+      this.imageData.b[imageDataIndex] = data[dataIndex ++];
+      this.imageData.a[imageDataIndex] = data[dataIndex ++] / 255;
     }
   }
 
@@ -359,50 +365,57 @@ export default class CanvasRenderingContext2D {
   }
 
   _drawPixel(x, y, color) {
-    const targetColor = DRAW_COLOR.copy(color);
-    targetColor.a *= this.globalAlpha;
+    const sourceColor = DRAW_COLOR.set(color.r, color.g, color.b, color.a);
+    sourceColor.a *= this.globalAlpha;
 
     const index = y * this.canvas.width + x;
-    const sourceColor = this.canvas.data[index];
 
-    // TODO
-    // handle global composite operation
+    const r = this.canvas.imageData.r[index];
+    const g = this.canvas.imageData.g[index];
+    const b = this.canvas.imageData.b[index];
+    const a = this.canvas.imageData.a[index];
 
+    let resultColor;
     switch (this.globalCompositeOperation) {
       case 'copy':
-        sourceColor.copy(targetColor);
+        resultColor = sourceColor.copy(r, g, b, a);
         break;
       case 'source-over':
-        sourceColor.sourceOver(targetColor);
+        resultColor = sourceColor.sourceOver(r, g, b, a);
         break;
       case 'destination-over':
-        sourceColor.destinationOver(targetColor);
+        resultColor = sourceColor.destinationOver(r, g, b, a);
         break;
       case 'source-in':
-        sourceColor.sourceIn(targetColor);
+        resultColor = sourceColor.sourceIn(r, g, b, a);
         break;
       case 'destination-in':
-        sourceColor.destinationIn(targetColor);
+        resultColor = sourceColor.destinationIn(r, g, b, a);
         break;
       case 'source-out':
-        sourceColor.sourceOut(targetColor);
+        resultColor = sourceColor.sourceOut(r, g, b, a);
         break
       case 'destination-out':
-        sourceColor.destinationOut(targetColor);
+        resultColor = sourceColor.destinationOut(r, g, b, a);
         break
       case 'source-atop':
-        sourceColor.sourceAtop(targetColor);
+        resultColor = sourceColor.sourceAtop(r, g, b, a);
         break
       case 'destination-atop':
-        sourceColor.destinationAtop(targetColor);
+        resultColor = sourceColor.destinationAtop(r, g, b, a);
         break
       case 'xor':
-        sourceColor.xOr(targetColor);
+        resultColor = sourceColor.xOr(r, g, b, a);
         break;
       case 'lighter':
-        sourceColor.lighter(targetColor);
+        resultColor = sourceColor.lighter(r, g, b, a);
         break;
     }
+
+    this.canvas.imageData.r[index] = resultColor.r;
+    this.canvas.imageData.g[index] = resultColor.g;
+    this.canvas.imageData.b[index] = resultColor.b;
+    this.canvas.imageData.a[index] = resultColor.a;
   }
 
   _getInverseTransfrom() {

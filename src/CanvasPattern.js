@@ -1,5 +1,5 @@
 import Color from './Color.js';
-const CLEAR_COLOR = new Color();
+const COLOR = new Color();
 
 export default class CanvasPattern {
   constructor(image, repeat) {
@@ -14,9 +14,14 @@ export default class CanvasPattern {
     if (x >= 0 && y >= 0 && x < this._image.width && y < this._image.height) {
       const index = y * this._image.width + x;
 
-      return this._image._imageData[index];
+      const r = this._image.imageData.r[index];
+      const g = this._image.imageData.g[index];
+      const b = this._image.imageData.b[index];
+      const a = this._image.imageData.a[index];
+
+      return COLOR.set(r, g, b, a);
     } else {
-      return CLEAR_COLOR;
+      return COLOR.set(0, 0, 0, 0);
     }
   }
 }

@@ -13,15 +13,6 @@ export default class Color {
     return this;
   }
 
-  copy(color) {
-    this.r = color.r;
-    this.g = color.g;
-    this.b = color.b;
-    this.a = color.a;
-
-    return this;
-  }
-
   set(r, g, b, a) {
     this.r = r;
     this.g = g;
@@ -31,123 +22,168 @@ export default class Color {
     return this;
   }
 
-  sourceOver(color) {
+  copy(r, g, b, a) {
+    return { r, g, b, a };
+  }
+
+  sourceOver(bR, bG, bB, bA) {
     // source: https://www.w3.org/TR/2013/WD-compositing-1-20130625/#porterduffcompositingoperators_srcover
 
-    const a = Math.min(color.a + this.a * (1 - color.a), 1);
-    const r = Math.min((color.r * color.a + this.a * this.r * (1 - color.a)) / a, 255) || 0;
-    const g = Math.min((color.g * color.a + this.a * this.g * (1 - color.a)) / a, 255) || 0;
-    const b = Math.min((color.b * color.a + this.a * this.b * (1 - color.a)) / a, 255) || 0;
+    const sR = this.r;
+    const sG = this.g;
+    const sB = this.b;
+    const sA = this.a;
 
-    this.set(r, g, b, a);
+    const a = Math.min(sA + bA * (1 - sA), 1);
+    const r = (sR * sA + bA * bR * (1 - sA)) / a;
+    const g = (sG * sA + bA * bG * (1 - sA)) / a;
+    const b = (sB * sA + bA * bB * (1 - sA)) / a;
+
+    return { r, g, b, a };
   }
 
-  destinationOver(color) {
+  destinationOver(bR, bG, bB, bA) {
     // source: https://www.w3.org/TR/2013/WD-compositing-1-20130625/#porterduffcompositingoperators_dstover
 
-    const a = Math.min(color.a * (1 - this.a) + this.a, 1);
-    const r = Math.min((color.a * color.r * (1 - this.a) + this.a * this.r) / a, 255) || 0;
-    const g = Math.min((color.a * color.g * (1 - this.a) + this.a * this.g) / a, 255) || 0;
-    const b = Math.min((color.a * color.b * (1 - this.a) + this.a * this.b) / a, 255) || 0;
+    const sR = this.r;
+    const sG = this.g;
+    const sB = this.b;
+    const sA = this.a;
 
-    this.set(r, g, b, a);
+    const a = Math.min(sA * (1 - bA) + a, 1);
+    const r = (sA * sR * (1 - bA) + bA * bR) / a;
+    const g = (sA * sG * (1 - bA) + bA * bG) / a;
+    const b = (sA * sB * (1 - bA) + bA * bB) / a;
+
+    return { r, g, b, a };
   }
 
-  sourceIn(color) {
+  sourceIn(bR, bG, bB, bA) {
     // source: https://www.w3.org/TR/2013/WD-compositing-1-20130625/#porterduffcompositingoperators_srcin
 
-    const a = Math.min(color.a * this.a, 1);
-    const r = Math.min((color.r * this.a * color.a) / a, 255) || 0;
-    const g = Math.min((color.g * this.a * color.a) / a, 255) || 0;
-    const b = Math.min((color.b * this.a * color.a) / a, 255) || 0;
+    const sR = this.r;
+    const sG = this.g;
+    const sB = this.b;
+    const sA = this.a;
 
-    this.set(r, g, b, a);
+    const a = Math.min(sA * bA, 1);
+    const r = (sR * bA * sA) / a;
+    const g = (sG * bA * sA) / a;
+    const b = (sB * bA * sA) / a;
+
+    return { r, g, b, a };
   }
 
-  destinationIn(color) {
+  destinationIn(bR, bG, bB, bA) {
     // source: https://www.w3.org/TR/2013/WD-compositing-1-20130625/#porterduffcompositingoperators_dstin
 
-    const a = Math.min(color.a * this.a, 1);
-    const r = Math.min((this.r * this.a * color.a) / a, 255) || 0;
-    const g = Math.min((this.g * this.a * color.a) / a, 255) || 0;
-    const b = Math.min((this.b * this.a * color.a) / a, 255) || 0;
+    const sR = this.r;
+    const sG = this.g;
+    const sB = this.b;
+    const sA = this.a;
 
-    this.set(r, g, b, a);
+    const a = Math.min(sA * bA, 1);
+    const r = (bR * bA * sA) / a;
+    const g = (bG * bA * sA) / a;
+    const b = (bB * bA * sA) / a;
+
+    return { r, g, b, a };
   }
 
-  sourceOut(color) {
+  sourceOut(bR, bG, bB, bA) {
     // source: https://www.w3.org/TR/2013/WD-compositing-1-20130625/#porterduffcompositingoperators_srcout
 
-    const a = Math.min(color.a * (1 - this.a), 1);
-    const r = Math.min((color.a * color.r * (1 - this.a)) / a, 255) || 0;
-    const g = Math.min((color.a * color.g * (1 - this.a)) / a, 255) || 0;
-    const b = Math.min((color.a * color.b * (1 - this.a)) / a, 255) || 0;
+    const sR = this.r;
+    const sG = this.g;
+    const sB = this.b;
+    const sA = this.a;
 
-    this.set(r, g, b, a);
+    const a = Math.min(sA * (1 - bA), 1);
+    const r = (sA * sR * (1 - bA)) / a;
+    const g = (sA * sG * (1 - bA)) / a;
+    const b = (sA * sB * (1 - bA)) / a;
+
+    return { r, g, b, a };
   }
 
-  destinationOut(color) {
+  destinationOut(bR, bG, bB, bA) {
     // source: https://www.w3.org/TR/2013/WD-compositing-1-20130625/#porterduffcompositingoperators_dstout
 
-    const a = Math.min(this.a * (1 - color.a), 1);
-    const r = Math.min((this.a * this.r * (1 - color.a)) / a, 255) || 0;
-    const g = Math.min((this.a * this.g * (1 - color.a)) / a, 255) || 0;
-    const b = Math.min((this.a * this.b * (1 - color.a)) / a, 255) || 0;
+    const sR = this.r;
+    const sG = this.g;
+    const sB = this.b;
+    const sA = this.a;
 
-    this.set(r, g, b, a);
+    const a = Math.min(bA * (1 - sA), 1);
+    const r = (bA * bR * (1 - sA)) / a;
+    const g = (bA * bG * (1 - sA)) / a;
+    const b = (bA * bB * (1 - sA)) / a;
+
+    return { r, g, b, a };
   }
 
-  sourceAtop(color) {
+  sourceAtop(bR, bG, bB, bA) {
     // source: https://www.w3.org/TR/2013/WD-compositing-1-20130625/#porterduffcompositingoperators_srcatop
 
-    const a = Math.min(this.a * color.a + this.a * (1 - color.a), 1);
-    const r = Math.min((color.a * color.r * this.a + this.a * this.r * (1 - color.a)) / a, 255) || 0;
-    const g = Math.min((color.a * color.g * this.a + this.a * this.g * (1 - color.a)) / a, 255) || 0;
-    const b = Math.min((color.a * color.b * this.a + this.a * this.b * (1 - color.a)) / a, 255) || 0;
+    const sR = this.r;
+    const sG = this.g;
+    const sB = this.b;
+    const sA = this.a;
 
-    this.set(r, g, b, a);
+    const a = Math.min(bA * sA + bA * (1 - sA), 1);
+    const r = (sA * sR * bA + bA * bR * (1 - sA)) / a;
+    const g = (sA * sG * bA + bA * bG * (1 - sA)) / a;
+    const b = (sA * sB * bA + bA * bB * (1 - sA)) / a;
+
+    return { r, g, b, a };
   }
 
-  destinationAtop(color) {
+  destinationAtop(bR, bG, bB, bA) {
     // source: https://www.w3.org/TR/2013/WD-compositing-1-20130625/#porterduffcompositingoperators_dstatop
 
-    const a = Math.min(this.a * color.a + color.a * (1 - this.a), 1);
-    const r = Math.min((this.a * this.r * color.a + color.a * color.r * (1 - this.a)) / a, 255) || 0;
-    const g = Math.min((this.a * this.g * color.a + color.a * color.g * (1 - this.a)) / a, 255) || 0;
-    const b = Math.min((this.a * this.b * color.a + color.a * color.b * (1 - this.a)) / a, 255) || 0;
+    const sR = this.r;
+    const sG = this.g;
+    const sB = this.b;
+    const sA = this.a;
 
-    this.set(r, g, b, a);
+    const a = Math.min(bA * sA + sA * (1 - bA), 1);
+    const r = (bA * bR * sA + sA * sR * (1 - bA)) / a;
+    const g = (bA * bG * sA + sA * sG * (1 - bA)) / a;
+    const b = (bA * bB * sA + sA * sB * (1 - bA)) / a;
+
+    return { r, g, b, a };
   }
 
-  xOr(color) {
+  xOr(bR, bG, bB, bA) {
     // source: https://www.w3.org/TR/2013/WD-compositing-1-20130625/#porterduffcompositingoperators_xor
 
-    const a = Math.min(color.a * (1 - this.a) + this.a * (1 - color.a), 1);
-    const r = Math.min((color.a * color.r * (1 - this.a) + this.a * this.r * (1 - color.a)) / a, 255) || 0;
-    const g = Math.min((color.a * color.g * (1 - this.a) + this.a * this.g * (1 - color.a)) / a, 255) || 0;
-    const b = Math.min((color.a * color.b * (1 - this.a) + this.a * this.b * (1 - color.a)) / a, 255) || 0;
+    const sR = this.r;
+    const sG = this.g;
+    const sB = this.b;
+    const sA = this.a;
 
-    this.set(r, g, b, a);
+    const a = Math.min(sA * (1 - bA) + bA * (1 - sA), 1);
+    const r = (sA * sR * (1 - bA) + bA * bR * (1 - sA)) / a;
+    const g = (sA * sG * (1 - bA) + bA * bG * (1 - sA)) / a;
+    const b = (sA * sB * (1 - bA) + bA * bB * (1 - sA)) / a;
+
+    return { r, g, b, a };
   }
 
-  lighter(color) {
+  lighter(bR, bG, bB, bA) {
     // source: https://www.w3.org/TR/2013/WD-compositing-1-20130625/#porterduffcompositingoperators_plus
 
-    const a = Math.min(color.a + this.a, 1);
-    const r = Math.min((color.a * color.r + this.a * this.r) / a, 255) || 0;
-    const g = Math.min((color.a * color.g + this.a * this.g) / a, 255) || 0;
-    const b = Math.min((color.a * color.b + this.a * this.b) / a, 255) || 0;
+    const sR = this.r;
+    const sG = this.g;
+    const sB = this.b;
+    const sA = this.a;
 
-    this.set(r, g, b, a);
-  }
+    const a = Math.min(sA + bA, 1);
+    const r = (sA * sR + bA * bR) / a;
+    const g = (sA * sG + bA * bG) / a;
+    const b = (sA * sB + bA * bB) / a;
 
-  toArray() {
-    return [Math.round(this.r), Math.round(this.g), Math.round(this.b), Math.round(this.a * 255)];
-  }
-
-  clear() {
-    this.r = this.g = this.b = this.a = 0;
-    this._str = '#000000';
+    return { r, g, b, a };
   }
 
   set str(str) {

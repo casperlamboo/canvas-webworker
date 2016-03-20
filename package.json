@@ -1,7 +1,7 @@
 {
   "name": "canvas-webworker",
   "description": "Pure JavaScript Canvas implimentation that can be used in WebWorkers",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "lib/index.js",
   "files": [
     "lib"

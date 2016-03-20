@@ -89,14 +89,17 @@ export function encode(element) {
 
     const context = element.getContext('2d');
 
-    const _imageData = context.getImageData(0, 0, element.width, element.height);
-
-    imageData = { data: _imageData._data, height: _imageData._height, width: _imageData._height };
+    imageData = context.getImageData(0, 0, element.width, element.height);
     type = 'canvas';
 
   } else if (element instanceof ImageDataWorker) {
 
-    imageData = { data: element._data, height: element._height, width: element._height };
+    canvasWorker.width = element.width;
+    canvasWorker.height = element.height;
+
+    contextWorker.putImageData(element, 0, 0);
+
+    imageData = contextWorker.getImageData(0, 0, element.width, element.height);
     type = 'imageData';
 
   } else if (element instanceof ImageWorker) {
@@ -106,9 +109,7 @@ export function encode(element) {
 
     contextWorker.drawImage(element, 0, 0);
 
-    const _imageData = contextWorker.getImageData(0, 0, element.width, element.height);
-
-    imageData = { data: _imageData._data, height: _imageData._height, width: _imageData._height };
+    imageData = contextWorker.getImageData(0, 0, element.width, element.height);
     type = 'image';
 
   } else if (element instanceof HTMLCanvasElement) {
@@ -123,7 +124,12 @@ export function encode(element) {
 
   } else if (element instanceof ImageData) {
 
-    imageData = element;
+    canvasDOM.width = element.width;
+    canvasDOM.height = element.height;
+
+    contextDOM.putImageData(element, 0, 0);
+
+    imageData = contextDOM.getImageData(0, 0, element.width, element.height);
     type = 'imageData';
 
   } else if (element instanceof Image) {

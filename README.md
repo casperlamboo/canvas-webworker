@@ -17,7 +17,7 @@ npm install canvas-webworker
 ```
 
 # Usage
-Include the library.
+The library imatates the [HTML5 Canvas API](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D). To use the library, first include it in your project.
 
 Using JSPM (ECMAScript / ES6 Module)
 ```javascript
@@ -26,17 +26,35 @@ import { Canvas, Image } from 'casperlamboo/canvas-webworker';
 
 Using NPM (CommonJS module)
 ```javascript
-var canvasWebWorker = require('canvas-webworker');
+const canvasWebWorker = require('canvas-webworker');
 
-var Canvas = canvasWebWorker.Canvas;
-var Image = canvasWebWorker.Image;
+const Canvas = canvasWebWorker.Canvas;
+const Image = canvasWebWorker.Image;
 ```
 
 When the library is included `Canvas` can be used.
 
 ```javascript
-var canvas = new Canvas(720, 480);
-var context = canvas.getContext('2d');
+const canvas = new Canvas(720, 480);
+const context = canvas.getContext('2d');
+```
+
+To transfer Image, ImageData or Canvas entities the transfer function can be used.
+
+```javascript
+// main.js
+
+const worker = new Worker('worker.js');
+
+const { data, buffer } = transfer.encode(myImage);
+
+worker.postMessage(data, [buffer]);
+
+// worker.js
+
+self.addEventListener('message', ({ data }) => {
+  const myImage = transfer.decode(data);
+});
 ```
 
 # Progress

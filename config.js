@@ -15,9 +15,10 @@ System.config({
   },
 
   map: {
-    "clipper-js": "github:Doodle3D/clipper-js@0.0.2",
     "babel": "npm:babel-core@5.8.35",
     "babel-runtime": "npm:babel-runtime@5.8.35",
+    "casperlamboo/EventDispatcher": "github:casperlamboo/EventDispatcher@master",
+    "clipper-js": "github:Doodle3D/clipper-js@0.0.2",
     "core-js": "npm:core-js@1.2.6",
     "get-pixels": "npm:get-pixels@3.3.0",
     "github:Doodle3D/clipper-js@0.0.2": {

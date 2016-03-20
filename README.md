@@ -21,7 +21,7 @@ The library imatates the [HTML5 Canvas API](https://developer.mozilla.org/en-US/
 
 Using JSPM (ECMAScript / ES6 Module)
 ```javascript
-import { Canvas, Image } from 'casperlamboo/canvas-webworker';
+import { Canvas, Image, transfer } from 'casperlamboo/canvas-webworker';
 ```
 
 Using NPM (CommonJS module)
@@ -30,6 +30,7 @@ const canvasWebWorker = require('canvas-webworker');
 
 const Canvas = canvasWebWorker.Canvas;
 const Image = canvasWebWorker.Image;
+const transfer = canvasWebWorker.transfer;
 ```
 
 When the library is included `Canvas` can be used.

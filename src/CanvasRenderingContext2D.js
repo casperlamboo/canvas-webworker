@@ -279,12 +279,6 @@ export default class CanvasRenderingContext2D {
     }
   }
 
-  putImageData(imageData, startX, startY) {
-    ERROR_MANAGER.argumetsCheck('putImageData', 3, arguments.length);
-
-    // TODO
-  }
-
   clearRect(minX, minY, width, height) {
     ERROR_MANAGER.argumetsCheck('clearRect', 4, arguments.length);
 
@@ -333,12 +327,12 @@ export default class CanvasRenderingContext2D {
     const { width, height, data } = imageData;
 
     for (let index = 0, dataIndex = 0; index < data.length; index ++) {
-      const imageDataIndex = index + x + y * this.width;
+      const imageDataIndex = index + x + y * this.canvas.width;
 
-      this.imageData.r[imageDataIndex] = data[dataIndex ++];
-      this.imageData.g[imageDataIndex] = data[dataIndex ++];
-      this.imageData.b[imageDataIndex] = data[dataIndex ++];
-      this.imageData.a[imageDataIndex] = data[dataIndex ++] / 255;
+      this.canvas.imageData.r[imageDataIndex] = data[dataIndex ++];
+      this.canvas.imageData.g[imageDataIndex] = data[dataIndex ++];
+      this.canvas.imageData.b[imageDataIndex] = data[dataIndex ++];
+      this.canvas.imageData.a[imageDataIndex] = data[dataIndex ++] / 255;
     }
   }
 

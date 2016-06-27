@@ -13,7 +13,7 @@ jspm install github:casperlamboo/canvas-webworker
 
 Using NPM (CommonJS module)
 ```
-npm install canvas-webworker
+npm install canvas-webworker --save
 ```
 
 # Usage
@@ -26,11 +26,7 @@ import { Canvas, Image, transfer } from 'casperlamboo/canvas-webworker';
 
 Using NPM (CommonJS module)
 ```javascript
-const canvasWebWorker = require('canvas-webworker');
-
-const Canvas = canvasWebWorker.Canvas;
-const Image = canvasWebWorker.Image;
-const transfer = canvasWebWorker.transfer;
+const { Canvas, Image, transfer } = require('canvas-webworker');
 ```
 
 When the library is included `Canvas` can be used.

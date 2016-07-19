@@ -65,7 +65,9 @@
       "EventDispatcher": "github:mrdoob/eventdispatcher.js@^1.0.0",
       "babel-runtime": "npm:babel-runtime@^5.8.24",
       "core-js": "npm:core-js@^1.1.4",
-      "plugin-babel": "npm:systemjs-plugin-babel@^0.0.12"
+      "module": "github:jspm/nodelibs-module@^0.2.0-alpha",
+      "plugin-babel": "npm:systemjs-plugin-babel@^0.0.12",
+      "worker": "github:casperlamboo/plugin-worker@master"
     },
     "peerDependencies": {
       "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha",

@@ -12,7 +12,9 @@ SystemJS.config({
       "babel-runtime": "npm:babel-runtime@5.8.38",
       "core-js": "npm:core-js@1.2.7",
       "plugin-babel": "npm:systemjs-plugin-babel@0.0.12",
-      "EventDispatcher": "github:mrdoob/eventdispatcher.js@1.0.0"
+      "EventDispatcher": "github:mrdoob/eventdispatcher.js@1.0.0",
+      "worker": "github:casperlamboo/plugin-worker@master",
+      "module": "github:jspm/nodelibs-module@0.2.0-alpha"
     },
     "packages": {
       "npm:babel-runtime@5.8.38": {

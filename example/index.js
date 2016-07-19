@@ -1,5 +1,5 @@
 import { transfer } from '/src/index.js';
-import Worker from './WorkerShim';
+import Worker from './WorkerShim.js';
 
 const worker = new Worker('./worker.js');
 

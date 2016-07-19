@@ -1,4 +1,4 @@
-import EventDispatcher from 'casperlamboo/EventDispatcher';
+import EventDispatcher from 'EventDispatcher';
 
 export default class WorkerShim extends EventDispatcher {
 	constructor(path) {

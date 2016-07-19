@@ -1,4 +1,4 @@
-importScripts('/jspm_packages/system.js', '/config.js');
+importScripts('/jspm_packages/system.js', '/jspm.config.js');
 
 var loaded = false;
 self.onmessage = function(message) {

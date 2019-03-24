@@ -1,4 +1,4 @@
-import { Canvas, Image, transfer } from '/src/index.js';
+import { Canvas, Image, transfer } from 'src/index.js';
 
 const canvas = new Canvas(300, 300);
 const context = canvas.getContext('2d');

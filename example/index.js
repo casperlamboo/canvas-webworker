@@ -1,8 +1,7 @@
-import { transfer } from '/src/index.js';
-import Worker from 'worker/WorkerShim';
-import workerSrc from './worker.js!worker';
+import { transfer } from 'src/index.js';
+import CanvasWorker from './worker.js';
 
-const worker = new Worker(workerSrc);
+const worker = new CanvasWorker();
 
 worker.addEventListener('message', ({ data }) => {
   const canvas = transfer.decode(data);

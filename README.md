@@ -1,7 +1,7 @@
 # Canvas WebWorker
-Pure JavaScript Canvas implimentation that can be used in WebWorkers
+Pure JavaScript Canvas implementation that can be used in WebWorkers
 
-WebWorkers are great when long scripts has to be excuted while the main program has to keep running (cannot be blocked). When a complex image has to be generated, for instance a large texture for a game, the generation can be blocking for the game. A solution would be to generate the texture in a WebWorker. Due to the fact that the HTMLCanvasElement cannot be accecssed in the WebWorker this is fairly difficult. Using this pure JavaScript a Canvas polyfill can be used. Drawing is not hardware accerated so it will be slower compaired to a regular canvas but the programm will remain non-blocking.
+WebWorkers are great when long scripts have to be executed while the main program has to keep running (cannot be blocked). When a complex image has to be generated, for instance a large texture for a game, the generation can be blocking for the game. A solution would be to generate the texture in a WebWorker. Due to the fact that the HTMLCanvasElement cannot be accessed in the WebWorker this is fairly difficult. Using this pure JavaScript a Canvas polyfill can be used. Drawing is not hardware accelerated so it will be slower compared to a regular canvas but the program will remain non-blocking.
 
 # Instalation
 Install the library
